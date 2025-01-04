@@ -14,67 +14,82 @@
 <script type="text/babel">
     const root = document.getElementById("root");
 
-
     function MinutesToHours() {
         const [minutes, setMinutes] = React.useState(0);
-
         const onChange = (event) => {
             setMinutes(event.target.value);
         };
-        const onClick = () => {
+        const reset = () => {
             setMinutes(0);
         }
-
+        const [isFlipped, setFlipped] = React.useState(false);
+        const flipped = () => {
+            setMinutes(0);
+            setFlipped((current) => !current);
+        }
         return (
             <div>
                 <div>
                     <label>Minutes</label>
                     <input
-                        value={minutes}
+                        value={isFlipped ? minutes : minutes * 60}
                         onChange={onChange}
                         type="number"
+                        disabled={!isFlipped}
                     />
                 </div>
                 <div>
                     <label>Hours</label>
                     <input
-                    value={Math.round(minutes / 60)}
+                    value={!isFlipped ? minutes : Math.round(minutes / 60)}
                     type="number"
                     onChange={onChange}
+                    disabled={isFlipped}
                     />
                 </div>
-                <button onClick={onClick}>Reset</button>
+                <button onClick={reset}>Reset</button>
+                <button onClick={flipped}>Flip</button>
             </div>
         );
     }
 
     function KmToMiles () {
         const [km, setMiles] = React.useState(0);
+        const [isFlipped, setFlipped] = React.useState(false);
 
         const onChange = (event) => {
             setMiles(event.target.value);
         };
-
+        const reset = () => {
+            setMiles(0);
+        };
+        const flipped = () => {
+            setMiles(0);
+            setFlipped((current) => !current);
+        }
         return (
             <div>
                 <div>
                     <label>Km</label>
                     <input
-                    value={km}
-                    onChange={onChange}
-                    type="number"
+                        value={isFlipped ? km * 1.60934: km }
+                        onChange={onChange}
+                        type="number"
+                        disabled={isFlipped}
                     />
                 </div>
                 <div>
                     <label>Miles</label>
                     <input
-                        value={km * 0.621371}
+                        value={!isFlipped ? km * 0.621371 : km}
                         onChange={onChange}
                         type="number"
-                        />
+                        disabled={!isFlipped}
+                    />
                 </div>
+                <button onClick={reset}>Reset</button>
+                <button onClick={flipped}>Flip</button>
             </div>
-
         );
     }
 
